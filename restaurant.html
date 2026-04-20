@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maison Dorée — Restaurant Gastronomique</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9A96E;
+    --gold-light: #E8D5B0;
+    --dark: #0D0B08;
+    --dark-2: #1A1712;
+    --dark-3: #252118;
+    --cream: #F5F0E8;
+    --text-muted: #9A8F7E;
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-sans: 'Montserrat', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    background: linear-gradient(to bottom, rgba(13,11,8,0.95), transparent);
+    transition: background 0.4s;
+  }
+  nav.scrolled { background: rgba(13,11,8,0.97); border-bottom: 1px solid rgba(201,169,110,0.15); }
+  .nav-logo {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.3s, color 0.3s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,169,110,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,169,110,0.04) 0%, transparent 60%);
+  }
+  .hero-line {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--gold));
+    margin: 0 auto 2.5rem;
+    animation: growLine 1.2s ease forwards;
+    transform-origin: top;
+  }
+  @keyframes growLine { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 10vw, 8rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.5s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.7s forwards;
+  }
+  .hero-cta {
+    margin-top: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.9s forwards;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .btn-gold {
+    display: inline-block;
+    padding: 0.9rem 2.5rem;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .btn-gold:hover { background: var(--gold); color: var(--dark); }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0 5%;
+    margin: 4rem 0;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,169,110,0.3), transparent);
+  }
+  .divider-icon {
+    width: 8px; height: 8px;
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* SECTION BASE */
+  section { padding: 6rem 5%; }
+  .section-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+  }
+  .section-title em { font-style: italic; }
+
+  /* ABOUT */
+  .about { background: var(--dark-2); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .about-text p {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--text-muted);
+    margin-top: 2rem;
+  }
+  .about-text p + p { margin-top: 1rem; }
+  .about-visual {
+    position: relative;
+  }
+  .about-frame {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--dark-3);
+    border: 1px solid rgba(201,169,110,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-frame::before {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(201,169,110,0.12);
+    pointer-events: none;
+  }
+  .about-frame-text {
+    font-family: var(--font-serif);
+    font-size: 5rem;
+    font-style: italic;
+    color: rgba(201,169,110,0.08);
+    user-select: none;
+  }
+  .about-stat {
+    position: absolute;
+    bottom: -1.5rem;
+    left: -1.5rem;
+    background: var(--dark);
+    border: 1px solid rgba(201,169,110,0.2);
+    padding: 1.2rem 1.8rem;
+  }
+  .about-stat-num {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .about-stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+  }
+
+  /* MENU */
+  .menu { background: var(--dark); }
+  .menu-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 4rem;
+  }
+  .menu-header p {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .menu-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid rgba(201,169,110,0.15);
+  }
+  .menu-tab {
+    padding: 0.8rem 2rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.3s, border-color 0.3s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: var(--font-sans);
+  }
+  .menu-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .menu-tab:hover:not(.active) { color: var(--cream); }
+
+  .menu-panel { display: none; max-width: 800px; margin: 0 auto; }
+  .menu-panel.active { display: block; }
+  .menu-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(201,169,110,0.08);
+  }
+  .menu-item:last-child { border-bottom: none; }
+  .menu-item-name {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 0.3rem;
+  }
+  .menu-item-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .menu-item-price {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  /* AMBIANCE */
+  .ambiance { background: var(--dark-2); }
+  .ambiance-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+  .ambiance-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .ambiance-card {
+    background: var(--dark-3);
+    border: 1px solid rgba(201,169,110,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: rgba(201,169,110,0.1);
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 220px;
+  }
+  .ambiance-card:first-child {
+    grid-column: span 2;
+    min-height: 280px;
+  }
+  .ambiance-label {
+    position: absolute;
+    bottom: 1rem; left: 1.2rem;
+    font-family: var(--font-sans);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(201,169,110,0.6);
+  }
+
+  /* RÉSERVATION */
+  .reservation { background: var(--dark); text-align: center; }
+  .reservation-inner {
+    max-width: 580px;
+    margin: 0 auto;
+  }
+  .reservation-inner p {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .form-group { text-align: left; }
+  .form-group label {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    background: var(--dark-2);
+    border: 1px solid rgba(201,169,110,0.2);
+    color: var(--cream);
+    padding: 0.8rem 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+    appearance: none;
+  }
+  .form-group input::placeholder { color: rgba(154,143,126,0.5); }
+  .form-group input:focus,
+  .form-group select:focus { border-color: var(--gold); }
+  .form-group select option { background: var(--dark-2); }
+  .btn-submit {
+    display: inline-block;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem 2.5rem;
+    background: var(--gold);
+    color: var(--dark);
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+  .btn-submit:hover { opacity: 0.85; }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark-2);
+    border-top: 1px solid rgba(201,169,110,0.12);
+    padding: 3rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .footer-brand { font-family: var(--font-serif); font-size: 1.3rem; color: var(--gold); }
+  .footer-info { font-size: 0.72rem; color: var(--text-muted); line-height: 1.8; text-align: center; }
+  .footer-info strong { color: var(--cream); font-weight: 400; }
+  .footer-copy { font-size: 0.65rem; color: rgba(154,143,126,0.5); }
+
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .ambiance-grid { grid-template-columns: 1fr; }
+    .ambiance-card:first-child { grid-column: span 1; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-info { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Maison Dorée</a>
+  <ul class="nav-links">
+    <li><a href="#about">Histoire</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#ambiance">Ambiance</a></li>
+    <li><a href="#reservation">Réservation</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <p class="hero-eyebrow">Gastronomie Française · Paris VII<sup>e</sup></p>
+  <h1 class="hero-title">Maison<br><em>Dorée</em></h1>
+  <p class="hero-subtitle">Une expérience culinaire d'exception depuis 1987</p>
+  <div class="hero-cta">
+    <a href="#reservation" class="btn-gold">Réserver une table</a>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-icon"></div></div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <p class="section-label">Notre Histoire</p>
+      <h2 class="section-title">L'art de la table<br><em>réinventé</em></h2>
+      <p>Fondée en 1987 par le Chef Éric Mauvoisin, Maison Dorée incarne l'excellence de la gastronomie française. Nichée au cœur du VII<sup>e</sup> arrondissement, notre maison vous accueille dans un écrin de raffinement intemporel.</p>
+      <p>Chaque assiette est le fruit d'une passion sans compromis : des produits soigneusement sélectionnés auprès de producteurs engagés, des techniques classiques sublimées par une sensibilité contemporaine.</p>
+      <p style="margin-top: 2rem;">
+        <a href="#menu" class="btn-gold">Découvrir le menu</a>
+      </p>
+    </div>
+    <div class="about-visual">
+      <div class="about-frame">
+        <span class="about-frame-text">MD</span>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">2★</div>
+        <div class="about-stat-label">Guide Michelin</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-icon"></div></div>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="menu-header">
+    <p class="section-label">Carte & Menus</p>
+    <h2 class="section-title">Une <em>symphonie</em><br>de saveurs</h2>
+    <p>Notre chef compose chaque jour une partition culinaire inspirée du marché et des saisons. Tous nos produits sont issus de producteurs artisanaux français.</p>
+  </div>
+
+  <div class="menu-tabs">
+    <button class="menu-tab active" onclick="showTab('entrees', this)">Entrées</button>
+    <button class="menu-tab" onclick="showTab('plats', this)">Plats</button>
+    <button class="menu-tab" onclick="showTab('desserts', this)">Desserts</button>
+  </div>
+
+  <div class="menu-panel active" id="tab-entrees">
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Foie gras de canard, brioche maison</div>
+        <div class="menu-item-desc">Chutney de figue, fleur de sel de Guérande, pain brioché toasté</div>
+      </div>
+      <div class="menu-item-price">38 €</div>
+    </div>
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Carpaccio de Saint-Jacques</div>
+        <div class="menu-item-desc">Caviar Osciètre, émulsion citronnée, huile d'olive premier cru</div>
+      </div>
+      <div class="menu-item-price">46 €</div>
+    </div>
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Velouté de truffe noire du Périgord</div>
+        <div class="menu-item-desc">Crème légère, copeaux de truffe fraîche, croûtons beurrés</div>
+      </div>
+      <div class="menu-item-price">52 €</div>
+    </div>
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Tartare de langoustine royale</div>
+        <div class="menu-item-desc">Avocat, mangue, gelée de crustacés au champagne rosé</div>
+      </div>
+      <div class="menu-item-price">42 €</div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="tab-plats">
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Filet de bœuf Rossini</div>
+        <div class="menu-item-desc">Médaillon de foie gras poêlé, sauce Périgueux, pommes sarladaises</div>
+      </div>
+      <div class="menu-item-price">68 €</div>
+    </div>
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Homard bleu en deux cuissons</div>
+        <div class="menu-item-desc">Bisque corsée, légumes du moment, beurre nantais à l'estragon</div>
+      </div>
+      <div class="menu-item-price">85 €</div>
+    </div>
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Canard à la presse, cerise griotte</div>
+        <div class="menu-item-desc">Sauce au sang, purée de céleri-rave truffée, gratin dauphinois</div>
+      </div>
+      <div class="menu-item-price">72 €</div>
+    </div>
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Sole de ligne meunière</div>
+        <div class="menu-item-desc">Beurre noisette, câpres, citron confit, amandes grillées</div>
+      </div>
+      <div class="menu-item-price">58 €</div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="tab-desserts">
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Soufflé au Grand Marnier</div>
+        <div class="menu-item-desc">Crème anglaise vanille bourbon, fruits confits d'Apt</div>
+      </div>
+      <div class="menu-item-price">22 €</div>
+    </div>
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Millefeuille à la vanille de Madagascar</div>
+        <div class="menu-item-desc">Caramel au beurre salé, feuilletage inversé, crème légère</div>
+      </div>
+      <div class="menu-item-price">18 €</div>
+    </div>
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Tarte fine aux pommes</div>
+        <div class="menu-item-desc">Sorbet calvados, caramel normand, beurre demi-sel</div>
+      </div>
+      <div class="menu-item-price">16 €</div>
+    </div>
+    <div class="menu-item">
+      <div>
+        <div class="menu-item-name">Plateau de fromages affinés</div>
+        <div class="menu-item-desc">Sélection de la Fromagerie Quatrehomme, confiture de cerises noires</div>
+      </div>
+      <div class="menu-item-price">28 €</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-icon"></div></div>
+
+<!-- AMBIANCE -->
+<section class="ambiance" id="ambiance">
+  <div class="ambiance-header">
+    <p class="section-label">Notre Cadre</p>
+    <h2 class="section-title">Un décor <em>intemporel</em></h2>
+  </div>
+  <div class="ambiance-grid">
+    <div class="ambiance-card">La Salle<span class="ambiance-label">Salle principale · 40 couverts</span></div>
+    <div class="ambiance-card">Salon Privé<span class="ambiance-label">Salon privatisable</span></div>
+    <div class="ambiance-card">Bar<span class="ambiance-label">Bar à vins & cocktails</span></div>
+    <div class="ambiance-card">Terrasse<span class="ambiance-label">Terrasse jardin</span></div>
+    <div class="ambiance-card">Cave<span class="ambiance-label">Cave à vins · 400 références</span></div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-icon"></div></div>
+
+<!-- RESERVATION -->
+<section class="reservation" id="reservation">
+  <div class="reservation-inner">
+    <p class="section-label">Réservation</p>
+    <h2 class="section-title">Réservez<br>votre <em>table</em></h2>
+    <p>Nous vous invitons à réserver votre table en ligne ou à nous contacter directement. Pour les groupes de plus de 8 personnes ou les événements privés, veuillez nous appeler.</p>
+
+    <form onsubmit="handleReservation(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom & Prénom</label>
+          <input type="text" placeholder="Jean Dupont" required>
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" placeholder="+33 1 23 45 67 89" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" required>
+        </div>
+        <div class="form-group">
+          <label>Heure</label>
+          <select required>
+            <option value="">Choisir</option>
+            <option>12h00</option>
+            <option>12h30</option>
+            <option>13h00</option>
+            <option>19h30</option>
+            <option>20h00</option>
+            <option>20h30</option>
+            <option>21h00</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre de couverts</label>
+          <select required>
+            <option value="">Choisir</option>
+            <option>1 personne</option>
+            <option>2 personnes</option>
+            <option>3 personnes</option>
+            <option>4 personnes</option>
+            <option>5 personnes</option>
+            <option>6 personnes</option>
+            <option>7 — 8 personnes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="jean@email.com" required>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit">Confirmer la réservation</button>
+    </form>
+
+    <p id="confirm-msg" style="display:none; margin-top:1.5rem; color: var(--gold); font-size:0.85rem; letter-spacing:0.05em;">
+      ✦ Votre demande a bien été prise en compte. Nous vous confirmerons par email sous 24h.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Maison Dorée</div>
+  <div class="footer-info">
+    <strong>15, rue de Grenelle · Paris 75007</strong><br>
+    +33 1 45 67 89 10 · contact@maisondoree.fr<br>
+    Mar–Sam : 12h–14h | 19h30–22h30
+  </div>
+  <div class="footer-copy">© 2025 Maison Dorée. Tous droits réservés.</div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  function showTab(tab, btn) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.menu-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function handleReservation(e) {
+    e.preventDefault();
+    document.getElementById('confirm-msg').style.display = 'block';
+    e.target.style.opacity = '0.4';
+    e.target.style.pointerEvents = 'none';
+  }
+</script>
+</body>
+</html>
